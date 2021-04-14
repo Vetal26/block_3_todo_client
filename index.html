@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>ToDoJS</title>
+        <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="style/app.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div id="todo" class="col col-6 form-group">
+                    <h2>ToDoJS</h2>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="todo" aria-describedby="todo-add" id="todo-input" autocomplete="off"/>
+                        <div class="input-group-append">
+                            <button id="todo-add" class="btn btn-outline-primary" type="button">Add</button>
+                        </div>
+                    </div>
+                    <div id="todo-list">
+                        <ul id="list" class="list-group"></ul>
+                        <div class="btn-group btn-block" id="filter">
+                            <button class="btn btn-outline-primary active" id="all">All</button>
+                            <button class="btn btn-outline-primary" id="active">Active</button>
+                            <button class="btn btn-outline-primary" id="completed">Completed</button>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <div class="btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-primary" id="todo-all-completed">Select all
+                            </label>
+                            <label class="btn btn-primary" id="todo-all-active">Deselect all
+                            </label>
+                        </div>
+                        <button class="btn btn-outline-primary" id="todos-destroy">Clear completed</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <script src="bundle.js"></script>
+    </body>
+</html>

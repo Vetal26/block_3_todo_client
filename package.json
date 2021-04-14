@@ -1,0 +1,36 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "- Add Todo\r - Delete Todo\r - Filter Todo\r - Prioritize Todo for completion.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production webpack serve --mode production --env production",
+    "start:dev": "cross-env NODE_ENV=development webpack serve --mode development --env development"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-loader": "^8.2.2",
+    "babel-preset-es2015": "^6.24.1",
+    "cross-env": "^7.0.3",
+    "webpack": "^5.31.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": ">= 14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vetal26/block_2_todo.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Vetal26/block_2_todo/issues"
+  },
+  "homepage": "https://github.com/Vetal26/block_2_todo#readme"
+}
