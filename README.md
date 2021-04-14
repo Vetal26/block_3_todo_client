@@ -14,7 +14,7 @@ To start a project, you need to be in the catalog, which contains package.json a
 
 ```sh
 npm i
-npm run dev
+npm run start:dev
 ```
 
 - Follow the link http://localhost:8080 
