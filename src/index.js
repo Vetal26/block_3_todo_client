@@ -89,10 +89,11 @@ function deleteCompleted() {
     }
 }
 
-function updateIndexTodo(currentElem, prevElem) {
+function updateIndexTodo(currentElem, prevElem, nextElem) {
     let currentTodoId = +currentElem.getAttribute('id');
     let prevTodoId = prevElem ? +prevElem.getAttribute('id') : null;
-    list.updateList(currentTodoId, prevTodoId);
+    let nextTodoId = nextElem ? +nextElem.getAttribute('id') : null;
+    list.updateList(currentTodoId, prevTodoId, nextTodoId);
 }
 
 function initApp(){
@@ -188,9 +189,10 @@ function dragAndDrop(e) {
 
 
         const prevEle = draggingEle.previousElementSibling;
+        const nextEle = draggingEle.nextElementSibling;
         draggingEle.prepend(oldChek);
         draggingEle.append(oldBtn);
-        updateIndexTodo(draggingEle, prevEle);
+        updateIndexTodo(draggingEle, prevEle, nextEle);
 
         x = null;
         y = null;

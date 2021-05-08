@@ -5,6 +5,7 @@ export default class Todo {
         this.title = todo.title;
         this.id = todo?.id ? todo.id : this.newId();
         this.isDone = todo?.isDone ? todo.isDone : false;
+        this.position = todo?.position ? todo.position : this.id.toString(36);
     }
 
     getTodoItem(key) {
@@ -21,5 +22,9 @@ export default class Todo {
 
     newId() {
         return (new Date()).getTime() + getRandomIntInclusive(1, 10000);
+    }
+
+    updatePosition(pos) {
+        this.position = pos;
     }
 }
