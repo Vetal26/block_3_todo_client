@@ -14,17 +14,21 @@ export default class TodoList {
         let todolst = await fetch(`http://${config.development.host}:${config.development.port}/todos`)
             .then(response => response.json())
             .catch(error => console.error('Error:', error));
-        // todolst.todos.sort((a,b) => {
-        //     if (a.position < b.position) return -1;
-        //     if (a.position > b.position) return 1;
-        //     return 0;
-        //     });
         todolst.todos.forEach(todo => {
             this.todos.push(new Todo(todo));
         });
+        console.log(this.todos)
     }
 
     async addTodo(todo) {
+        if (this.todoList.length >= 1) {
+            let posLastTodo = this.todoList[this.todoList.length - 1].getTodoItem('position');
+            if (posLastTodo > todo.getTodoItem('position')) {
+                let newPosTodo = posLastTodo + Math.random().toString(36).slice(-1);
+                todo.updatePosition(newPosTodo);
+            }
+        }
+
         await fetch(`http://${config.development.host}:${config.development.port}/todos`, {
             method: 'POST',
             body: JSON.stringify(todo),
@@ -35,11 +39,12 @@ export default class TodoList {
         })
         .then(response => response.text())
         .catch(error => console.error('Error:', error));
+
         this.todos.push(todo);
     }
 
     async removeTodo(id) {
-        let todoIdx = this.todos.findIndex(t => t.id === id);
+        let todoIdx = getIdxTodo(id);
         if (todoIdx === -1) {
             console.log('Nothing to remove!');
             return;
@@ -82,13 +87,13 @@ export default class TodoList {
     }
 
     async removeCopleted() {
-        let idstodos = [];
+        let idsTodos = [];
         for (let todo of this.getCompletedTodo()) {
-            idstodos.push(todo.getTodoItem('id'));  
+            idsTodos.push(todo.getTodoItem('id'));  
         }
         await fetch(`http://${config.development.host}:${config.development.port}/todos`, {
             method: 'DELETE',
-            body: JSON.stringify(idstodos),
+            body: JSON.stringify(idsTodos),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -99,7 +104,7 @@ export default class TodoList {
     }
 
     async toggleTodo(id) {
-        let todoIdx = this.todos.findIndex(t => t.id === id);
+        let todoIdx = getIdxTodo(id);
         await fetch(`http://${config.development.host}:${config.development.port}/todos/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -133,26 +138,26 @@ export default class TodoList {
         return this.todoList.filter((todo) => todo.isDone === false);
     }
 
-    async updateList(currentTodoId, prevTodoId, nextTodoId) {
-        let newPos;
-        let currentTodoIdx = this.todos.findIndex(t => t.id === currentTodoId);
-        if (prevTodoId) {
-            let prevTodoIdx = this.todos.findIndex(t => t.id === prevTodoId);
-            let posPrev = this.todos[prevTodoIdx].getTodoItem('position');
-            newPos = posPrev + posPrev.substring((posPrev.length / 2), (posPrev.length / 2 + 1));
-            this.todos[currentTodoIdx].updatePosition(newPos);
-        } else if (!prevTodoId) {
-            let nextTodoIdx = this.todos.findIndex(t => t.id === nextTodoId);
-            let posNext = this.todos[nextTodoIdx].getTodoItem('position');
-            newPos = posNext.substring(0, posNext.length - 1);
-        }
-        
-        await fetch(`http://${config.development.host}:${config.development.port}/todos/dnd/${currentTodoId}`, {
+    getIdxTodo(id) {
+        return this.todos.findIndex(t => t.id === id)
+    }
+
+    isTodo(id) {
+        if (!id) return null;
+        return this.todos[this.getIdxTodo(id)].getTodoItem('position');
+    }
+
+    async updateList(prevTodoId, currentTodoId, nextTodoId) {
+        let prevTodoPosition = this.isTodo(prevTodoId);
+        let nextTodoPosition = this.isTodo(nextTodoId);
+        let todosPosition = [prevTodoPosition, nextTodoPosition]
+
+        await fetch(`http://${config.development.host}:${config.development.port}/dnd/${currentTodoId}`, {
             method: 'PUT',
             headers: {
                     'Content-Type': 'application/json'
             },
-            body: JSON.stringify([newPos])
+            body: JSON.stringify(todosPosition)
         }).then(response => response.text())
         .catch(error => console.error('Error:', error));
     }

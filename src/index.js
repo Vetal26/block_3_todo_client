@@ -90,10 +90,11 @@ function deleteCompleted() {
 }
 
 function updateIndexTodo(currentElem, prevElem, nextElem) {
+    console.log(currentElem)
     let currentTodoId = +currentElem.getAttribute('id');
     let prevTodoId = prevElem ? +prevElem.getAttribute('id') : null;
     let nextTodoId = nextElem ? +nextElem.getAttribute('id') : null;
-    list.updateList(currentTodoId, prevTodoId, nextTodoId);
+    list.updateList(prevTodoId, currentTodoId, nextTodoId);
 }
 
 function initApp(){
